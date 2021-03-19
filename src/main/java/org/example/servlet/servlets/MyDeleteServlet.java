@@ -1,27 +1,26 @@
 package org.example.servlet.servlets;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.example.servlet.UberFactory;
 import org.example.servlet.db.JdbcTemplate;
 import org.example.servlet.dto.NotesResponse;
+import org.example.servlet.service.NoteService;
 
 import java.io.IOException;
 
 public class MyDeleteServlet extends JsonServlet {
+    UberFactory uf = UberFactory.getInstance();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
-        UberFactory uf = UberFactory.getInstance();
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(uf.getDs());
+        NoteService noteService = uf.getNoteService();
 
         int idDelete = Integer.parseInt(req.getParameter("id"));
-        NotesResponse notesResponse = new NotesResponse();
 
-        jdbcTemplate.delete("delete from notes where id=?", new Object[]{idDelete});
-        notesResponse.setStatus("OK");
-
-        writeJson(notesResponse, resp);
+        noteService.delete(idDelete);
+        resp.sendRedirect("/");
     }
 }

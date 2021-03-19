@@ -1,67 +1,43 @@
 package org.example.servlet.servlets;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.example.servlet.UberFactory;
-import org.example.servlet.db.JdbcTemplate;
 import org.example.servlet.dto.Note;
 import org.example.servlet.dto.NotesResponse;
+import org.example.servlet.service.NoteService;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.List;
 
 
 public class MyServlet extends JsonServlet {
-
+    UberFactory uf = UberFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        UberFactory uf = UberFactory.getInstance();
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(uf.getDs());
+        NoteService noteService = uf.getNoteService();
 
-        NotesResponse notesResponse = new NotesResponse();
-
+        NotesResponse notesResponse = noteService.getAll();
+        req.setAttribute("notes", notesResponse.getNoteList());
         try {
-            List<Note> list = jdbcTemplate.select("select id, name, txt, time from notes",
-                    (rs) -> {
-                        Note note = new Note();
-                        try {
-                            note.setId(rs.getString("id"));
-                            note.setName(rs.getString("name"));
-                            note.setTxt(rs.getString("txt"));
-                            note.setTime(rs.getString("time"));
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
-
-                        return note;
-                    });
-            notesResponse.setNoteList(list);
-            notesResponse.setStatus("OK");
-        } catch (Exception e) {
-            notesResponse.setStatus("ERROR");
+            req.getRequestDispatcher("WEB-INF/views/notes.jsp").forward(req, resp);
+        } catch (ServletException e) {
+            e.printStackTrace();
         }
-
-        writeJson(notesResponse, resp);
 
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Note note = readJson(Note.class, req);
+        Note note = new Note();
+        note.setName(req.getParameter("noteName"));
+        note.setTxt(req.getParameter("noteText"));
 
+        NoteService noteService = uf.getNoteService();
+        noteService.post(note);
+        resp.sendRedirect("/");
 
-        UberFactory uf = UberFactory.getInstance();
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(uf.getDs());
-
-        NotesResponse notesResponse = new NotesResponse();
-
-        jdbcTemplate.insert("insert into notes (name, txt, time) values (?, ?, ?)",
-                new Object[]{note.getName(), note.getTxt(), LocalDate.now()});
-
-        notesResponse.setStatus("NOTE WAS CREATED");
-        writeJson(notesResponse, resp);
     }
 }

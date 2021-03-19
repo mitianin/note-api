@@ -24,5 +24,15 @@
         <servlet-name>MyDeleteServlet</servlet-name>
         <url-pattern>/delete</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>MyGetUserServlet</servlet-name>
+        <servlet-class>org.example.servlet.servlets.MyGetUserServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>MyGetUserServlet</servlet-name>
+        <url-pattern>/note/*</url-pattern>
+    </servlet-mapping>
 
 </web-app>
