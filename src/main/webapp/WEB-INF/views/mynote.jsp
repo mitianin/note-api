@@ -10,7 +10,6 @@
 <h1>Note</h1>
 
 <p><c:out value="${note.name}" /></p>
-<br/>
 <p><c:out value="${note.txt}" /></p>
 
 </body>

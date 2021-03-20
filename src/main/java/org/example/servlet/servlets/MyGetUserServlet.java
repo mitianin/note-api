@@ -19,14 +19,13 @@ public class MyGetUserServlet extends JsonServlet {
         String strId = req.getRequestURI().substring(req.getRequestURI().lastIndexOf("/") + 1);
         int id = Integer.parseInt(strId.trim());
         NotesResponse notesResponse = noteService.getById(id);
-        writeJson(notesResponse, resp);
+//        writeJson(notesResponse, resp);
 
-
-//        req.setAttribute("note", notesResponse.getNoteList().get(0));
-//        try {
-//            req.getRequestDispatcher("WEB-INF/views/mynote.jsp").forward(req, resp);
-//        } catch (ServletException e) {
-//            e.printStackTrace();
-//        }
+        req.setAttribute("note", notesResponse.getNoteList().get(0));
+        try {
+            getServletContext().getRequestDispatcher("/WEB-INF/views/mynote.jsp").forward(req, resp);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
     }
 }
