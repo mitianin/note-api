@@ -1,9 +1,12 @@
 package org.example.servlet.service;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.example.servlet.db.JdbcTemplate;
 import org.example.servlet.dto.Note;
 import org.example.servlet.dto.NotesResponse;
+import org.example.servlet.infrastructure.annotations.Autowired;
+import org.example.servlet.infrastructure.annotations.Component;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -12,9 +15,17 @@ import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
+@Data
+@Component
 public class DataBaseNoteService implements NoteService {
-    private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Override
+    public String getSomeString(){
+        return "some test string";
+    }
 
     @Override
     public NotesResponse post(Note note) {
@@ -75,7 +86,7 @@ public class DataBaseNoteService implements NoteService {
                 .collect(Collectors.toList());
 
         if (list.isEmpty()) {
-            notesResponse.setStatus("ERROR. NO SUCH USER WITH THAT ID");
+            notesResponse.setStatus("ERROR. NO SUCH USER WITH THAT ID" + "{"+id+"}");
             notesResponse.getNoteList().clear();
             return notesResponse;
         } else {

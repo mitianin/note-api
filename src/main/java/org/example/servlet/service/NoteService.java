@@ -4,6 +4,7 @@ import org.example.servlet.dto.Note;
 import org.example.servlet.dto.NotesResponse;
 
 public interface NoteService {
+    String getSomeString();
     NotesResponse post(Note note);
     NotesResponse getAll();
     NotesResponse delete(int id);

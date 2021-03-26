@@ -1,6 +1,10 @@
 package org.example.servlet.db;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.example.servlet.UberFactory;
+import org.example.servlet.infrastructure.annotations.Autowired;
+import org.example.servlet.infrastructure.annotations.Component;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -11,8 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Component
+@Data
 public class JdbcTemplate {
-    private final DataSource ds;
+    private final DataSource ds = UberFactory.getInstance().getDs();
 
     public <T> List<T> select(String sql, Object[] params, RowMapper<T> mapper) {
         List<T> result = new ArrayList<>();

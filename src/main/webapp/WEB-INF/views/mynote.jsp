@@ -8,9 +8,33 @@
 <body>
 
 <h1>Note</h1>
+<%@page import="org.example.servlet.service.DataBaseNoteService" %>
+<%@ page import="org.example.servlet.dto.NotesResponse" %>
+<%@ page import="org.example.servlet.dto.Note" %>
 
-<p><c:out value="${note.name}" /></p>
-<p><c:out value="${note.txt}" /></p>
+<%
+    String uri = request.getRequestURI();
+    int id = Integer.parseInt(uri.substring(uri.lastIndexOf("/") + 1).trim());
+%>
+
+<p><%="Info about NOTE with id " + "[" + id + "]"%>
+</p>
+
+<p><%
+    NotesResponse nr = new DataBaseNoteService().getById(id);
+    Note n = new Note();
+    if (!nr.getNoteList().isEmpty()) {
+        n = nr.getNoteList().get(0);
+    }
+%></p>
+
+<p><%=n.getName()%>
+</p>
+<p><%=n.getTxt()%>
+</p>
+<p><%=nr.getStatus()%>
+</p>
+
 
 </body>
 </html>

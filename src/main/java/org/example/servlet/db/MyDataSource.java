@@ -3,14 +3,17 @@ package org.example.servlet.db;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
+import org.example.servlet.infrastructure.annotations.Autowired;
+import org.example.servlet.infrastructure.annotations.Component;
 
 import javax.sql.DataSource;
 
 @RequiredArgsConstructor
 public class MyDataSource {
-    private final DataBaseLoginData data;
 
-    private DataSource ds = null;
+    @Autowired
+    private final DataBaseLoginData data;
+    private DataSource ds;
 
     public DataSource createDataSource() {
 

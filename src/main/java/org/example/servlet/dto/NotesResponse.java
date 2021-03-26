@@ -2,6 +2,7 @@ package org.example.servlet.dto;
 
 
 import lombok.Data;
+import org.example.servlet.infrastructure.annotations.Component;
 
 import java.util.ArrayList;
 import java.util.List;

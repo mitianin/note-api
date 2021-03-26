@@ -5,34 +5,25 @@
                       http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
+
     <servlet>
-        <servlet-name>MyServlet</servlet-name>
-        <servlet-class>org.example.servlet.servlets.MyServlet</servlet-class>
+        <servlet-name>DispatcherServlet</servlet-name>
+        <servlet-class>org.example.servlet.infrastructure.DispatcherServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>MyServlet</servlet-name>
-        <url-pattern>/</url-pattern>
+        <servlet-name>DispatcherServlet</servlet-name>
+        <url-pattern>/notes/*</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
-        <servlet-name>MyDeleteServlet</servlet-name>
-        <servlet-class>org.example.servlet.servlets.MyDeleteServlet</servlet-class>
+        <servlet-name>MyNote</servlet-name>
+        <jsp-file>/WEB-INF/views/mynote.jsp</jsp-file>
     </servlet>
-    
     <servlet-mapping>
-        <servlet-name>MyDeleteServlet</servlet-name>
-        <url-pattern>/delete</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>MyGetUserServlet</servlet-name>
-        <servlet-class>org.example.servlet.servlets.MyGetUserServlet</servlet-class>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>MyGetUserServlet</servlet-name>
+        <servlet-name>MyNote</servlet-name>
         <url-pattern>/note/*</url-pattern>
     </servlet-mapping>
+
 
 </web-app>

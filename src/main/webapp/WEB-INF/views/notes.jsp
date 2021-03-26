@@ -1,3 +1,4 @@
+<%@ page import="java.util.Date" %>
 <%@ page isELIgnored="false" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -9,9 +10,7 @@
 </head>
 <body>
 <h1>My note list</h1>
-
 <c:forEach var="note" items="${notes}">
-
     <table border="1">
         <tr>
             <th>
@@ -19,10 +18,10 @@
             </th>
             <th>
                 <a href="<c:url value="/note/${note.id}"/>">${note.name}</a>
+<%--                <a href="<c:url value="/note"/>">${note.name}</a>--%>
             </th>
-
             <th>
-                <form action="/delete" method="post">
+                <form action="<c:url value="/notes/delete"/>" method="post">
                     <input type="hidden" value="${note.id}" name="id">
                     <input type="submit" value="delete">
                 </form>
@@ -32,11 +31,13 @@
 </c:forEach>
 <br/>
 <h3>Create note:</h3>
-<form action="<c:url value="/" />" method="post">
+
+
+<form action="<c:url value="/notes/add" />" method="post">
     note name: <input type="text" name="noteName"> <br/>
     note text: <input type="text" name="noteText"> <br/>
     <input type="submit" value="create note">
-    <form/>
+</form>
 
 
 </body>
